@@ -19116,6 +19116,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"page-flip@npm:latest":
+  version: 2.0.7
+  resolution: "page-flip@npm:2.0.7"
+  checksum: bc3538ae85679356c263d2a8e50f6338c2769511825d6112da8958e8f2eef8e29ae8d6cbd7f664af08dad4d86727ffe9dc09d72783182097f69eea3edf4012d5
+  languageName: node
+  linkType: hard
+
 "pako@npm:~0.2.0":
   version: 0.2.9
   resolution: "pako@npm:0.2.9"
@@ -20664,6 +20671,15 @@ __metadata:
   version: 18.2.0
   resolution: "react-is@npm:18.2.0"
   checksum: 6eb5e4b28028c23e2bfcf73371e72cd4162e4ac7ab445ddae2afe24e347a37d6dc22fae6e1748632cd43c6d4f9b8f86dcf26bf9275e1874f436d129952528ae0
+  languageName: node
+  linkType: hard
+
+"react-pageflip@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "react-pageflip@npm:2.0.3"
+  dependencies:
+    page-flip: latest
+  checksum: e92e35e967786fc7d62694b6cea042fcd73b697faa8474ed03cf7ee1360bc999c6e0ab29b61f11d403382e47464b62bbc20ec332b6c33e4b803ad491135a6506
   languageName: node
   linkType: hard
 
@@ -24327,6 +24343,7 @@ __metadata:
     prop-types: 15.8.1
     react: 18.3.0-canary-035a41c4e-20230704
     react-dom: 18.3.0-canary-035a41c4e-20230704
+    react-pageflip: ^2.0.3
     tailwindcss: ^3.3.3
   languageName: unknown
   linkType: soft

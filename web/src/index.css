@@ -35,6 +35,7 @@
     height: 1px;
   }
 
+  /* auction */
   .auction-grid {
     @apply mx-auto grid max-w-[1340px] w-full grid-cols-[1fr_auto_335px] z-grid;
   }
@@ -53,6 +54,30 @@
   .nav-dot--active {
     @apply text-[#7C7C7C] hover:text-caribbeanGreen
   }
+
+  /* bedtime stories */
+  .page {
+    @apply border-[#cc9e6a] border-1
+  }
+
+  .page.page-left {
+    @apply bg-[url('/images/page--left.jpg')];
+  }
+
+  .page.page-right {
+    @apply bg-[url('/images/page--right.jpg')];
+  }
+
+  .page.page-left.shadow {
+    box-shadow: -40px 0px 40px 1px #bf8d62;
+
+  }
+
+  /* .page::after {
+    content: '';
+    @apply h-full right-0 absolute top-0 w-[25%] bg-gradient-to-r from-white to-gray-400 mix-blend-multiply;
+  } */
+
 }
 
 @layer utilities {

@@ -40,5 +40,9 @@ module.exports = {
     'bg-orchid',
     'bg-cadetBlue',
     'bg-coral',
+    'page-left',
+    'page-right',
+    'origin-top-left',
+    'origin-top-right',
   ],
 }
