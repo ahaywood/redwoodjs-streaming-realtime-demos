@@ -5,6 +5,7 @@ interface PageProps {
   currentPage?: undefined | number
   pageNumber?: undefined | number
   side?: 'left' | 'right'
+  totalPages: number
 }
 
 const Page = ({
@@ -12,8 +13,8 @@ const Page = ({
   currentPage = undefined,
   pageNumber = undefined,
   side = 'right',
+  totalPages,
 }: PageProps) => {
-  const totalPages = 7
   const variants = {
     left: {
       rotateX: [0, 0, 0],
@@ -22,9 +23,10 @@ const Page = ({
       transitionStart: {
         zIndex: 10,
       },
-      zIndex: [totalPages - pageNumber + 1, 10],
+      // I'm add +1 to the zIndex so that the answer is never 0
+      zIndex: [totalPages + 1 - pageNumber + 1, 10],
       transitionEnd: {
-        zIndex: totalPages - pageNumber + 1,
+        zIndex: totalPages + 1 - pageNumber + 1,
       },
     },
     right: {
@@ -48,13 +50,16 @@ const Page = ({
       transition={{ duration: 2 }}
       style={{
         zIndex:
-          currentPage <= pageNumber ? totalPages - pageNumber : pageNumber,
+          currentPage <= pageNumber ? totalPages + 1 - pageNumber : pageNumber,
       }}
       className={`page absolute left-0 top-0 page-${side} origin-top-${
         side === 'left' ? 'right' : 'left'
       } h-[687px] w-[450px] bg-cover shadow`}
     >
+      {/* front of the page */}
       <div className="front page-layout">{children}</div>
+
+      {/* back of the page - "tell me a story about the ..""  */}
       <div className="back center flex-col font-blackLetter text-[#342e28]">
         <img
           src="/images/ornaments--top.svg"

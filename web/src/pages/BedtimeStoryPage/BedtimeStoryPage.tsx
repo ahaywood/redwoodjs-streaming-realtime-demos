@@ -33,7 +33,12 @@ const BedtimeStoryPage = () => {
             className="h-[870px] w-[1280px] max-w-[1280px]"
           />
           <div className="book absolute left-[631px] top-[100px]">
-            <Page currentPage={currentPage} pageNumber={6}>
+            {/* pages are listed last >> first to help with z-indexing and first load */}
+            <Page
+              totalPages={totalPages}
+              currentPage={currentPage}
+              pageNumber={6}
+            >
               <div className="story">
                 <div className="h-[518px] overflow-y-scroll pr-4">
                   <p>
@@ -63,16 +68,32 @@ const BedtimeStoryPage = () => {
                 </div>
               </div>
             </Page>
-            <Page currentPage={currentPage} pageNumber={5}>
+            <Page
+              totalPages={totalPages}
+              currentPage={currentPage}
+              pageNumber={5}
+            >
               <h2>{'Page 5'}</h2>
             </Page>
-            <Page currentPage={currentPage} pageNumber={4}>
+            <Page
+              totalPages={totalPages}
+              currentPage={currentPage}
+              pageNumber={4}
+            >
               <h2>{'Page 4'}</h2>
             </Page>
-            <Page currentPage={currentPage} pageNumber={3}>
+            <Page
+              totalPages={totalPages}
+              currentPage={currentPage}
+              pageNumber={3}
+            >
               <h2>{'Page 3'}</h2>
             </Page>
-            <Page currentPage={currentPage} pageNumber={2}>
+            <Page
+              totalPages={totalPages}
+              currentPage={currentPage}
+              pageNumber={2}
+            >
               <>
                 <h2>Pick an adjective</h2>
                 <div className="story-choices">
@@ -97,7 +118,11 @@ const BedtimeStoryPage = () => {
                 </div>
               </>
             </Page>
-            <Page currentPage={currentPage} pageNumber={1} />
+            <Page
+              totalPages={totalPages}
+              currentPage={currentPage}
+              pageNumber={1}
+            />
           </div>
           {currentPage > firstPage && (
             <button
