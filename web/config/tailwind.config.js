@@ -21,6 +21,8 @@ module.exports = {
       condensed: ['Bayon', 'sans-serif'],
       sans: ['Poppins', 'sans-serif'],
       mono: ['Roboto Mono', 'monospace'],
+      blackLetter: ['UnifrakturCook'],
+      serif: ['Georgia', 'serif'],
     },
     zIndex: {
       footerNavTrigger: 9999,

@@ -50,11 +50,26 @@ const Page = ({
         zIndex:
           currentPage <= pageNumber ? totalPages - pageNumber : pageNumber,
       }}
-      className={`page page-${currentPage} absolute left-0 top-0 page-${side} origin-top-${
+      className={`page absolute left-0 top-0 page-${side} origin-top-${
         side === 'left' ? 'right' : 'left'
       } h-[687px] w-[450px] bg-cover shadow`}
     >
-      {children}
+      <div className="front page-layout">{children}</div>
+      <div className="back center flex-col font-blackLetter text-[#342e28]">
+        <img
+          src="/images/ornaments--top.svg"
+          alt="ornaments"
+          className="mb-2"
+        />
+        <div className="mb-1 text-[50px] leading-none">tell me a</div>
+        <div className="mb-1 text-[100px] leading-none">Story</div>
+        <div className="mb-8 text-[50px] leading-none">about the...</div>
+        <img
+          src="/images/ornaments--top.svg"
+          alt="ornaments"
+          className="rotate-180"
+        />
+      </div>
     </motion.div>
   )
 }
