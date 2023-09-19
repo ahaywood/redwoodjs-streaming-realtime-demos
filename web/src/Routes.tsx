@@ -10,6 +10,7 @@ import MovieMashupPage from './pages/MovieMashupPage/MovieMashupPage'
 const Routes = () => {
   return (
     <Router>
+      <Route path="/table-of-contents" page={TableOfContentsPage} name="tableOfContents" />
       <Set wrap={DemoLayout}>
         <Route path="/" page={HomePage} name="home" />
         <Route path="/auction/{id}" page={AuctionPage} name="auction" />

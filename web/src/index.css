@@ -136,6 +136,18 @@
     @apply bg-[url('/images/pencil-circle.png')] bg-no-repeat;
   }
 
+  .toc__content h1 {
+    @apply font-sans text-[42px] font-bold mb-2
+  }
+
+  .toc__content h2 {
+    @apply font-sans text-3xl font-bold mb-2;
+  }
+
+  .toc__content p {
+    @apply text-lg leading-7 mb-6
+  }
+
 }
 
 @layer utilities {
