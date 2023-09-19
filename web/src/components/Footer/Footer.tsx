@@ -8,33 +8,33 @@ import Icon from '../Icon/Icon'
 
 export const menuOptions = [
   {
-    name: 'Realtime Demos',
-    subtitle: 'Pick a demo!',
+    name: 'Table of Contents',
+    subtitle: '',
     slug: '/',
   },
   {
-    name: 'Subscription',
-    subtitle: 'Chat Demo',
+    name: 'Chat',
+    subtitle: 'Subscription',
     slug: '/chat',
   },
   {
-    name: 'Live Query',
-    subtitle: 'Auction Demo',
+    name: 'Auction',
+    subtitle: 'Live Query',
     slug: '/auction/1',
   },
   {
-    name: 'Streaming',
-    subtitle: 'Countdown Timer',
+    name: 'Countdown Timer',
+    subtitle: 'Streaming',
     slug: '/countdown',
   },
   {
-    name: 'Subscription',
-    subtitle: 'Bedtime Story AI Demo',
+    name: 'Bedtime Story AI',
+    subtitle: 'Subscription',
     slug: '/bedtime-story',
   },
   {
-    name: 'Live Query',
-    subtitle: 'Movie Mashup AI Demo',
+    name: 'Bedtime Story AI',
+    subtitle: 'Live Query',
     slug: '/movie-mashup',
   },
 ]
