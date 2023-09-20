@@ -7,7 +7,6 @@ import { MetaTags } from '@redwoodjs/web'
 import Drawer from 'src/components/Drawer/Drawer'
 import GitHubCorner from 'src/components/GitHubCorner/GitHubCorner'
 import { HistoryContext } from 'src/layouts/DemoLayout/DemoLayout'
-import { Constants } from 'src/utils/Constants'
 
 const COUNTDOWN_SUBSCRIPTION = gql`
   subscription Countdown($from: Int!, $interval: Int!) {
@@ -53,7 +52,7 @@ const CountdownPage = () => {
 
       <div className="center h-[calc(100vh-64px)] w-screen bg-gray-950">
         <a
-          href={Constants.COUNTDOWN_ANCHOR}
+          href="https://github.com/redwoodjs/redwoodjs-streaming-realtime-demos#bedtime-story-subscription-with-openai-streaming"
           target="_blank"
           rel="noreferrer"
           className="absolute right-0 top-0 text-[#3A3A3A] hover:text-vividYellow"

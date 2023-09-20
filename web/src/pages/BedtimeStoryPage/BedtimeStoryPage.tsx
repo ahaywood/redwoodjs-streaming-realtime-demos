@@ -15,7 +15,6 @@ import Page from 'src/components/BedtimeStories/Page/Page'
 import Drawer from 'src/components/Drawer/Drawer'
 import GitHubCorner from 'src/components/GitHubCorner/GitHubCorner'
 import { HistoryContext } from 'src/layouts/DemoLayout/DemoLayout'
-import { Constants } from 'src/utils/Constants'
 import MarkdownFormatter from 'src/utils/MarkdownFormatter'
 
 const GET_STORY_CONFIG = gql`
@@ -219,7 +218,7 @@ const BedtimeStoryPage = () => {
         </pre>
       </Drawer>
       <a
-        href={Constants.BEDTIME_STORY_ANCHOR}
+        href="https://github.com/redwoodjs/redwoodjs-streaming-realtime-demos#bedtime-story-subscription-with-openai-streaming"
         target="_blank"
         rel="noreferrer"
         className="absolute right-0 top-0 z-grid text-[#17484c]"
