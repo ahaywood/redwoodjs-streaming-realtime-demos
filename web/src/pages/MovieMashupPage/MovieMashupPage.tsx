@@ -9,6 +9,7 @@ import Drawer from 'src/components/Drawer/Drawer'
 import GitHubCorner from 'src/components/GitHubCorner/GitHubCorner'
 import MovieCard from 'src/components/MovieCard/MovieCard'
 import { HistoryContext } from 'src/layouts/DemoLayout/DemoLayout'
+import { Constants } from 'src/utils/Constants'
 import MarkdownFormatter from 'src/utils/MarkdownFormatter'
 
 const GET_MOVIES_QUERY = gql`
@@ -54,7 +55,7 @@ const MovieMashupPage = () => {
   const [loading, setLoading] = useState(false)
   const [firstMovieId, setFirstMovieId] = useState(null)
   const [secondMovieId, setSecondMovieId] = useState(null)
-  const history = React.useContext(HistoryContext)
+  const { history } = React.useContext(HistoryContext)
 
   const handleMovieClick = (movieId) => {
     if (firstMovieId === movieId) {
@@ -77,6 +78,7 @@ const MovieMashupPage = () => {
         secondMovieId,
       },
     },
+
     onCompleted: (data) => {
       setLoading(false)
 
@@ -106,21 +108,19 @@ const MovieMashupPage = () => {
       />
 
       <Drawer theme="vividYellow">
-        <pre>
-          <HistoryContext.Consumer>
-            {(value) => (
-              <p
-                key={`movie-mashup-history-${value}`}
-                className="w-[400px] max-w-[400px] overflow-scroll"
-              >
-                {JSON.stringify(value, null, 2)}
-              </p>
-            )}
-          </HistoryContext.Consumer>
-        </pre>
+        <HistoryContext.Consumer>
+          {(value) => (
+            <p
+              key={`movie-mashup-history-${value}`}
+              className="w-[250px] max-w-[250px] overflow-scroll whitespace-pre-wrap"
+            >
+              {JSON.stringify(value, null, 2)}
+            </p>
+          )}
+        </HistoryContext.Consumer>
       </Drawer>
       <a
-        href="https://github.com/redwoodjs/redwoodjs-streaming-realtime-demos#movie-mashup-live-query-with-openai-streaming"
+        href={Constants.MOVIE_MASHUP_ANCHOR}
         target="_blank"
         rel="noreferrer"
         className="absolute right-0 top-0 z-grid"
@@ -208,7 +208,7 @@ const MovieMashupPage = () => {
                     Mashup!
                   </button>
                 )}
-                {loading && (
+                {loading && history.unshift(movieMashupData.movieMashup) && (
                   <div className="animate-bounce p-12 p-2 font-black text-green-600">
                     Mashing ...
                   </div>
@@ -222,17 +222,19 @@ const MovieMashupPage = () => {
               {!firstMovieId && secondMovieId && <>Pick another movie!</>}
             </div>
           )}
-          {movieMashupData && movieMashupData.movieMashup.mashup.body && (
-            <div
-              key={`movie-mashup-${movieMashupData.movieMashup.id}`}
-              className="my-8 rounded-md bg-sky-100 p-4"
-            >
-              <h2>{movieMashupData.movieMashup.mashup.title}</h2>
-              <MarkdownFormatter
-                content={movieMashupData.movieMashup.mashup.body}
-              />
-            </div>
-          )}
+          {movieMashupData &&
+            movieMashupData.movieMashup.mashup.body &&
+            history.unshift(movieMashupData.movieMashup) && (
+              <div
+                key={`movie-mashup-${movieMashupData.movieMashup.id}`}
+                className="my-8 rounded-md bg-sky-100 p-4"
+              >
+                <h2>{movieMashupData.movieMashup.mashup.title}</h2>
+                <MarkdownFormatter
+                  content={movieMashupData.movieMashup.mashup.body}
+                />
+              </div>
+            )}
         </div>
       </div>
     </div>

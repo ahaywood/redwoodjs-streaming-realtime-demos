@@ -1,11 +1,15 @@
 import { motion } from 'framer-motion'
 
+import { HistoryContext } from 'src/layouts/DemoLayout/DemoLayout'
+
 interface DrawerProps {
   children: JSX.Element
   theme?: 'vividYellow' | 'caribbeanGreen'
 }
 
 const Drawer = ({ children, theme = 'caribbeanGreen' }: DrawerProps) => {
+  const { clearHistory } = React.useContext(HistoryContext)
+
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false)
 
   const slideInOut = () => {
@@ -21,13 +25,21 @@ const Drawer = ({ children, theme = 'caribbeanGreen' }: DrawerProps) => {
         transition={{ duration: 0.2 }}
         exit={{ x: '-97%' }}
       >
-        <button
-          className={`absolute -right-[50px] top-[100px] rounded-[20px] bg-${theme} py-5 pl-10 pr-4 text-3xl`}
-          onClick={slideInOut}
-        >
-          🤓
-        </button>
-        {children}
+        <>
+          <button
+            className={`absolute -right-[60px] top-[100px] rounded-[20px] bg-${theme} py-5 pl-8 pr-4 text-3xl`}
+            onClick={slideInOut}
+          >
+            🤓
+          </button>
+          <button
+            className={`absolute -right-[60px] top-[150px] rounded-[20px] bg-${theme} py-5 pl-8 pr-4 text-3xl`}
+            onClick={clearHistory}
+          >
+            🧹
+          </button>
+        </>
+        <pre className="h-[calc(100vh-100px)] overflow-scroll">{children}</pre>
       </motion.div>
     </div>
   )

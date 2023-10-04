@@ -7,6 +7,7 @@ import { MetaTags } from '@redwoodjs/web'
 import Drawer from 'src/components/Drawer/Drawer'
 import GitHubCorner from 'src/components/GitHubCorner/GitHubCorner'
 import { HistoryContext } from 'src/layouts/DemoLayout/DemoLayout'
+import { Constants } from 'src/utils/Constants'
 
 const COUNTDOWN_SUBSCRIPTION = gql`
   subscription Countdown($from: Int!, $interval: Int!) {
@@ -19,7 +20,7 @@ const CountdownPage = () => {
 
   const [countdown, setCountdown] = useState(from)
 
-  const history = React.useContext(HistoryContext)
+  const { history } = React.useContext(HistoryContext)
 
   useSubscription(COUNTDOWN_SUBSCRIPTION, {
     variables: { from, interval },
@@ -39,20 +40,21 @@ const CountdownPage = () => {
       <MetaTags title="Countdown" description="Countdown page" />
 
       <Drawer theme="vividYellow">
-        <pre>
-          <HistoryContext.Consumer>
-            {(value) => (
-              <p key={`countdown-history-${value}`}>
-                {JSON.stringify(value, null, 2)}
-              </p>
-            )}
-          </HistoryContext.Consumer>
-        </pre>
+        <HistoryContext.Consumer>
+          {(value) => (
+            <p
+              key={`countdown-history-${value}`}
+              className="w-[250px] max-w-[250px] overflow-scroll whitespace-pre-wrap"
+            >
+              {JSON.stringify(value, null, 2)}
+            </p>
+          )}
+        </HistoryContext.Consumer>
       </Drawer>
 
       <div className="center h-[calc(100vh-64px)] w-screen bg-gray-950">
         <a
-          href="https://github.com/redwoodjs/redwoodjs-streaming-realtime-demos#bedtime-story-subscription-with-openai-streaming"
+          href={Constants.COUNTDOWN_ANCHOR}
           target="_blank"
           rel="noreferrer"
           className="absolute right-0 top-0 text-[#3A3A3A] hover:text-vividYellow"

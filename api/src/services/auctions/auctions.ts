@@ -4,11 +4,11 @@ import type { LiveQueryStorageMechanism } from '@redwoodjs/realtime'
 import { logger } from 'src/lib/logger'
 
 const auctions = [
-  { id: '1', title: 'Converse All-Stars', bids: [{ amount: 20 }] },
+  { id: '1', title: 'Converse All-Stars', bids: [{ amount: 10 }] },
   { id: '2', title: 'Adidas Run DMCs', bids: [{ amount: 5 }] },
   { id: '3', title: 'Nike Swooshed', bids: [{ amount: 15 }] },
   { id: '4', title: 'Adi Das Hamburg Edition', bids: [{ amount: 20 }] },
-  { id: '5', title: 'Nike Teal Tops', bids: [{ amount: 20 }] },
+  { id: '5', title: 'Nike Teal Tops', bids: [{ amount: 25 }] },
 ]
 
 /**
@@ -41,6 +41,18 @@ export const auction = async ({ id }) => {
   return foundAuction
 }
 
+export const resetAuctions = async () => {
+  auctions.forEach((a) => (a.bids = [{ amount: 0 }]))
+  return auctions
+}
+
+export const resetAuction = async ({ id }) => {
+  const index = auctions.findIndex((a) => a.id === id)
+
+  auctions[index].bids = [auctions[index].bids[0]]
+  return auctions[index]
+}
+
 export const bid = async (
   { input },
   { context }: { context: { liveQueryStore: LiveQueryStorageMechanism } }
@@ -64,7 +76,7 @@ export const bid = async (
 
 export const Auction = {
   highestBid: (obj, { root }) => {
-    const [max] = root.bids.sort((a, b) => b.amount - a.amount)
+    const [max] = root.bids.sort((a, b) => a.amount - b.amount)
 
     logger.debug({ obj, root }, 'highestBid')
 

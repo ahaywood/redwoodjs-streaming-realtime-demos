@@ -1,4 +1,7 @@
-import { useState } from 'react'
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import { useEffect, useRef } from 'react'
 
 import { NavLink, routes } from '@redwoodjs/router'
 import { MetaTags, useMutation, useQuery } from '@redwoodjs/web'
@@ -8,6 +11,7 @@ import Drawer from 'src/components/Drawer/Drawer'
 import GitHubCorner from 'src/components/GitHubCorner/GitHubCorner'
 import NavDot from 'src/components/NavDot/NavDot'
 import { HistoryContext } from 'src/layouts/DemoLayout/DemoLayout'
+import { Constants } from 'src/utils/Constants'
 
 const BID_ON_AUCTION = gql`
   mutation CreateBid($input: BidInput!) {
@@ -16,6 +20,28 @@ const BID_ON_AUCTION = gql`
     }
   }
 `
+
+const RESET_AUCTION = gql`
+  mutation ResetAuction($id: ID!) {
+    resetAuction(id: $id) {
+      bids {
+        amount
+      }
+      highestBid {
+        amount
+      }
+      id
+      title
+    }
+  }
+`
+
+// const RESET_AUCTIONS = gql`
+//   mutation ResetAuctions {
+//     resetAuctions
+//   }
+// `
+
 const AUCTION_LIVE_QUERY = gql`
   query GetCurrentAuctionBids($id: ID!) @live {
     auction(id: $id) {
@@ -32,27 +58,66 @@ const AUCTION_LIVE_QUERY = gql`
 `
 
 const AuctionPage = ({ id }) => {
-  // when clicking Bid, this is the amount that will be bid
-  const [bidAmount, setBidAmount] = useState(10)
+  // Keep track of the bid amount being typed to send
+  const bidAmountRef = useRef(null)
 
   // Auction history
-  const history = React.useContext(HistoryContext)
+  const { clearHistory, history } = React.useContext(HistoryContext)
 
   // Get the current auction with a @live query directive to receive updates in real time when a new bid is placed
   const { data } = useQuery(AUCTION_LIVE_QUERY, {
     variables: { id },
     onCompleted(data) {
+      console.debug('onCompleted', data.auction)
       history.unshift(data.auction)
     },
   })
 
+  useEffect(() => {
+    console.debug('AuctionPage useEffect', data)
+    data && history.unshift(data.auction)
+  }, [data, history])
+
+  if (data) {
+    history.unshift(data.auction)
+  }
+
   // Mutation to bid on an auction
-  const [create] = useMutation(BID_ON_AUCTION)
+  const [create] = useMutation(BID_ON_AUCTION, {
+    onCompleted: (data) => {
+      console.debug('onMutationComplete', JSON.stringify(data))
+    },
+  })
+
+  // Call the mutation to bid on an auction
+  const onBid = (data) => {
+    return create({
+      variables: { input: data },
+    })
+  }
 
   // When the Bid button is clicked, call the mutation
-  const onBid = (data) => {
-    create({
-      variables: { input: data },
+  const handleBidClick = () => {
+    if (bidAmountRef.current) {
+      // Convert bidAmount to a float or integer as needed
+      onBid({
+        auctionId: id,
+        amount: parseFloat(bidAmountRef.current.value.trim()),
+      })
+    }
+  }
+
+  // Mutation to reset an auction
+  const [resetAuction] = useMutation(RESET_AUCTION)
+
+  // When the reset button is clicked, call the mutation
+  const onResetAuction = (id) => {
+    resetAuction({
+      variables: { id },
+      onCompleted: (data) => {
+        console.debug('onMutationComplete', JSON.stringify(data))
+        clearHistory()
+      },
     })
   }
 
@@ -61,15 +126,16 @@ const AuctionPage = ({ id }) => {
       <MetaTags title="Auction" description="Auction page" />
 
       <Drawer>
-        <pre>
-          <HistoryContext.Consumer>
-            {(value) => (
-              <p key={`countdown-history-${value}`}>
-                {JSON.stringify(value, null, 2)}
-              </p>
-            )}
-          </HistoryContext.Consumer>
-        </pre>
+        <HistoryContext.Consumer>
+          {(value) => (
+            <p
+              key={`countdown-history-${value}`}
+              className="w-[250px] max-w-[250px] overflow-scroll whitespace-pre-wrap"
+            >
+              {JSON.stringify(value, null, 2)}
+            </p>
+          )}
+        </HistoryContext.Consumer>
       </Drawer>
 
       <div className="flex max-h-screen min-h-screen flex-col justify-end pb-[80px]">
@@ -98,19 +164,14 @@ const AuctionPage = ({ id }) => {
               <input
                 type="number"
                 className="amount w-[218px] rounded-lg border-1 border-[#CDCDCD] px-10"
-                defaultValue={bidAmount}
-                onChange={(e) => setBidAmount(parseInt(e.target.value))}
+                defaultValue={10}
+                ref={bidAmountRef} // Attach a ref to the input element
               />
               <div className="dollar-sign absolute left-4 top-3">$</div>
             </div>
             <button
               className="text-4xl font-bold text-caribbeanGreen hover:text-black"
-              onClick={() =>
-                onBid({
-                  auctionId: id,
-                  amount: bidAmount,
-                })
-              }
+              onClick={handleBidClick}
             >
               Bid
             </button>
@@ -121,7 +182,9 @@ const AuctionPage = ({ id }) => {
             </h4>
             <div>
               <span className="dollar-sign">$</span>
-              <span className="amount">{data?.auction?.highestBid.amount}</span>
+              <span className="amount">
+                {data?.auction?.highestBid?.amount}
+              </span>
             </div>
           </div>
         </div>
@@ -172,12 +235,20 @@ const AuctionPage = ({ id }) => {
                 <NavDot />
               </NavLink>
             </li>
+            <li>
+              <a
+                className="cursor-grabbing text-orchid hover:text-gray-100"
+                onClick={() => onResetAuction(data?.auction?.id)}
+              >
+                <NavDot />
+              </a>
+            </li>
           </ul>
         </nav>
       </div>
 
       <a
-        href="https://github.com/redwoodjs/redwoodjs-streaming-realtime-demos#auction-bids-live-query"
+        href={Constants.AUCTION_ANCHOR}
         target="_blank"
         rel="noreferrer"
         className="absolute right-0 top-0 z-grid"

@@ -36,7 +36,7 @@ const ChatRoom = ({ chatRoomNumber, roomColor }: ChatRoomProps) => {
   const [chatFeed, setChatFeed] = useState([])
   const [isRoomActive, setIsRoomActive] = useState(false)
 
-  const history = React.useContext(HistoryContext)
+  const { history } = React.useContext(HistoryContext)
 
   useEffect(() => {
     if (isRoomActive) {
@@ -76,7 +76,7 @@ const ChatRoom = ({ chatRoomNumber, roomColor }: ChatRoomProps) => {
         } as chatMessage
 
         setChatFeed((prevChatFeed) => [...prevChatFeed, { ...newMessage }])
-        history.unshift(message)
+        history.unshift({ roomId: chatRoomNumber, ...message })
         setIsRoomActive(true)
       }
     },

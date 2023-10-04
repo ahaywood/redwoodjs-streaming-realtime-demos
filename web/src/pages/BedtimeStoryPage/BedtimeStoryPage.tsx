@@ -15,6 +15,7 @@ import Page from 'src/components/BedtimeStories/Page/Page'
 import Drawer from 'src/components/Drawer/Drawer'
 import GitHubCorner from 'src/components/GitHubCorner/GitHubCorner'
 import { HistoryContext } from 'src/layouts/DemoLayout/DemoLayout'
+import { Constants } from 'src/utils/Constants'
 import MarkdownFormatter from 'src/utils/MarkdownFormatter'
 
 const GET_STORY_CONFIG = gql`
@@ -111,11 +112,12 @@ const BedtimeStoryPage = () => {
   const [adjectiveId, setAdjectiveId] = useState(null)
   const [title, setTitle] = useState(null)
   const [body, setBody] = useState(null)
-  const history = React.useContext(HistoryContext)
+  const { history, clearHistory } = React.useContext(HistoryContext)
 
   useEffect(() => {
     console.log('BedtimeStoryPage -> writeStory', writeStory)
     if (writeStory) {
+      clearHistory()
       setTitle("I'm writing your story...")
       setBody(null)
       create({
@@ -204,21 +206,19 @@ const BedtimeStoryPage = () => {
       <MetaTags title="Bedtime Story" description="Bedtime Story" />
 
       <Drawer>
-        <pre>
-          <HistoryContext.Consumer>
-            {(value) => (
-              <p
-                key={`bedtime-story-history-${value}`}
-                className="w-[400px] max-w-[400px] overflow-scroll"
-              >
-                {JSON.stringify(value, null, 2)}
-              </p>
-            )}
-          </HistoryContext.Consumer>
-        </pre>
+        <HistoryContext.Consumer>
+          {(value) => (
+            <p
+              key={`bedtime-story-history-${value}`}
+              className="w-[250px] max-w-[250px] overflow-scroll whitespace-pre-wrap"
+            >
+              {JSON.stringify(value, null, 2)}
+            </p>
+          )}
+        </HistoryContext.Consumer>
       </Drawer>
       <a
-        href="https://github.com/redwoodjs/redwoodjs-streaming-realtime-demos#bedtime-story-subscription-with-openai-streaming"
+        href={Constants.BEDTIME_STORY_ANCHOR}
         target="_blank"
         rel="noreferrer"
         className="absolute right-0 top-0 z-grid text-[#17484c]"
