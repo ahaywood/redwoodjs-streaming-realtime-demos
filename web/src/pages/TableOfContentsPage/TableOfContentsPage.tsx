@@ -41,14 +41,16 @@ const TableOfContentsPage = () => {
             </p>
             <h2>What is RedwoodJS Realtime?</h2>
             <p>
-              RedwoodJS Realime is a real-time solution for GraphQL over
+              RedwoodJS Realtime is a real-time solution for for GraphQL over
               Server-Sent Events.
             </p>
             <p>
-              Redwood offers two options for real-time updates:{' '}
-              <strong>live queries</strong> and <strong>subscriptions</strong>.
-              Subscriptions are part of the GraphQL specification, whereas live
-              queries are not.
+              Redwood offers several options for real-time updates:{' '}
+              <strong>live queries</strong>, <strong>subscriptions</strong>, as
+              well as <strong>stream</strong> and <strong>defer</strong>{' '}
+              directives. Subscriptions are part of the GraphQL specification,
+              whereas live queries are not. Stream and Defer are experimental
+              GraphQL features and not yet stable.
             </p>
             <p>
               There are times where subscriptions are well-suited for a realtime
@@ -168,6 +170,28 @@ const TableOfContentsPage = () => {
             </div>
 
             <h3 className="my-2 text-lg font-semibold leading-10">
+              Bedtime Story (Stream Directive with OpenAI Streaming)
+            </h3>
+
+            <p>RedwoodJS also supports the GraphQL Stream directive.</p>
+
+            <p>
+              While Apollo Client does not support streaming, you can still try
+              out this example in GraphiQL:
+            </p>
+
+            <pre
+              dangerouslySetInnerHTML={{
+                __html: `query StreamStoryExample { streamStory(input: {}) @stream }`,
+              }}
+            />
+
+            <p>
+              You can pass in an animal, color, adjective and activity -- or
+              random values will be used.
+            </p>
+
+            <h3 className="my-2 text-lg font-semibold leading-10">
               Movie Mashup (Live Query with OpenAI Streaming)
             </h3>
             <pre>
@@ -204,6 +228,31 @@ const TableOfContentsPage = () => {
                 <Icon name="github" /> View Code
               </a>
             </div>
+
+            <h3 className="my-2 text-lg font-semibold leading-10">
+              Movie Mashup (Stream Directive with OpenAI Streaming)
+            </h3>
+
+            <p>RedwoodJS also supports the GraphQL Stream directive.</p>
+
+            <p>
+              While Apollo Client does not support streaming, you can still try
+              out this example in GraphiQL:
+            </p>
+
+            <pre
+              dangerouslySetInnerHTML={{
+                __html: `query StreamMovieMashupExample {
+                  streamMovieMashup(input: {
+                    firstMovieId: "11522-pretty-in-pink",
+                    secondMovieId: "14370-real-genius"}) @stream
+                }`,
+              }}
+            />
+
+            <p>
+              You can pass in two movie ids -- or random values will be used.
+            </p>
           </div>
         </div>
         <div className="col-span-4 h-screen overflow-y-scroll bg-black pb-24 pt-[100px] text-center">
